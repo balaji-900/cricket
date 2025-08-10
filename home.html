@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cricket — A Short History (Sample)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220; 
+      --muted:#9aa4b2;
+      --accent:#ffb703;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0; background:linear-gradient(180deg,var(--bg),#06101a); color:#e6eef6; -webkit-font-smoothing:antialiased}
+    .wrap{max-width:1100px;margin:36px auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;}
+    .logo{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#072c4f,#05386b);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:20px;box-shadow:0 6px 18px rgba(2,6,23,0.7)}
+    h1{margin:0;font-size:28px}
+    p.lead{color:var(--muted);margin:6px 0 24px}
+
+    /* Controls */
+    .controls{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+    .search{flex:1;min-width:220px}
+    input[type="search"]{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:var(--glass);color:inherit}
+    .filters{display:flex;gap:8px}
+    button.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+    button.btn.active{border-color:var(--accent);color:var(--accent);box-shadow:0 6px 18px rgba(255,183,3,0.06);}
+
+    /* Timeline */
+    .timeline{position:relative;padding:20px 0}
+    .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:4px;background:linear-gradient(#07304a,#012633);top:0;bottom:0;border-radius:4px}
+    .event{position:relative;width:48%;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;margin:18px 0;box-shadow:0 6px 20px rgba(2,6,23,0.5);}
+    .event .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-weight:600;font-size:13px}
+    .event h3{margin:10px 0 6px;font-size:18px}
+    .event p{color:var(--muted);margin:0}
+    .event .meta{margin-top:10px;color:var(--muted);font-size:13px}
+    .left{left:0;transform:translateX(-2%)}
+    .right{margin-left:auto;left:52%;transform:translateX(2%)}
+    .event::after{content:'';position:absolute;top:20px;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(255,183,3,0.06)}
+    .left::after{right:-8px}
+    .right::after{left:-8px}
+
+    /* small screens */
+    @media (max-width:800px){
+      .timeline::before{left:16px;transform:none}
+      .event{width:100%;padding-left:48px;margin-left:0}
+      .right{left:0;transform:none}
+      .left::after, .right::after{left:16px}
+    }
+
+    /* footer */
+    footer{color:var(--muted);margin-top:28px;text-align:center;font-size:13px}
+
+    /* subtle reveal */
+    .hidden{opacity:0;transform:translateY(12px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    .visible{opacity:1;transform:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">CR</div>
+      <div>
+        <h1>Cricket — A Short History (sample)</h1>
+        <p class="lead">Interactive, responsive single-file demo. Use the search and era filters to explore notable events.</p>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search events (e.g. 1877, World Cup, Test)" />
+      </div>
+      <div class="filters" role="group" aria-label="era filters">
+        <button class="btn active" data-era="all">All</button>
+        <button class="btn" data-era="1800s">Before 1900</button>
+        <button class="btn" data-era="1900-1970">1900–1970</button>
+        <button class="btn" data-era="1971-2000">1971–2000</button>
+        <button class="btn" data-era="2001-">2001–Present</button>
+      </div>
+    </div>
+
+    <section class="timeline" id="timeline">
+      <!-- Events injected by JS -->
+    </section>
+
+    <footer>This is a sample page for demonstration and learning purposes.</footer>
+  </div>
+
+  <script>
+    const events = [
+      {
+        id:1, era:'1800s', title:'First recognised Test match (1877)',
+        year:1877,
+        blurb:'England v Australia, Melbourne — often regarded as the first Test match.',
+        meta:'Melbourne, March 15–19, 1877'
+      },
+      {
+        id:2, era:'1900-1970', title:'Bodyline series (1932–33)',
+        year:1933,
+        blurb:'Controversial England tour of Australia known for aggressive bowling tactics.',
+        meta:'England tour of Australia'
+      },
+      {
+        id:3, era:'1900-1970', title:'Don Bradman dominates (1930s)',
+        year:1930,
+        blurb:'Sir Donald Bradman emerged as the greatest batsman with an unparalleled Test average.',
+        meta:'Australia — batting feat'
+      },
+      {
+        id:4, era:'1971-2000', title:'World Series Cricket & the ODI era',
+        year:1977,
+        blurb:'Innovations like colored clothing and day–night matches began reshaping the game.',
+        meta:'Late 1970s, Kerry Packer & World Series Cricket'
+      },
+      {
+        id:5, era:'1971-2000', title:'First Cricket World Cup (1975)',
+        year:1975,
+        blurb:'The inaugural ODI World Cup was held in England; hosted 60-over matches.',
+        meta:'England, 1975'
+      },
+      {
+        id:6, era:'2001-', title:'T20 introduced (2003) and global growth',
+        year:2003,
+        blurb:'Twenty20 cricket accelerates popularity, leading to franchise leagues.',
+        meta:'Twenty20 Cup, England 2003'
+      },
+      {
+        id:7, era:'2001-', title:'India wins 2011 World Cup',
+        year:2011,
+        blurb:'India lifted the ICC Cricket World Cup at home — a landmark moment for fans.',
+        meta:'Final at Wankhede Stadium, Mumbai'
+      },
+      {
+        id:8, era:'2001-', title:'Rise of franchise T20 leagues (IPL 2008)',
+        year:2008,
+        blurb:'Indian Premier League launched, changing cricket economics and formats.',
+        meta:'IPL inaugural season — 2008'
+      }
+    ];
+
+    const timeline = document.getElementById('timeline');
+    const qInput = document.getElementById('q');
+    const filterBtns = Array.from(document.querySelectorAll('.filters .btn'));
+
+    function render(items){
+      timeline.innerHTML = '';
+      items.sort((a,b)=>a.year-b.year).forEach((ev,i)=>{
+        const side = (i % 2 === 0) ? 'left' : 'right';
+        const el = document.createElement('article');
+        el.className = `event ${side} hidden`;
+        el.setAttribute('data-era', ev.era);
+        el.innerHTML = `\n          <span class="badge">${ev.year}</span>\n          <h3>${ev.title}</h3>\n          <p>${ev.blurb}</p>\n          <div class="meta">${ev.meta}</div>\n        `;
+        timeline.appendChild(el);
+        // reveal with small delay
+        setTimeout(()=>el.classList.add('visible'), 80*i);
+      });
+    }
+
+    // initial render
+    render(events);
+
+    // filtering
+    function applyFilter(){
+      const q = qInput.value.trim().toLowerCase();
+      const activeEra = document.querySelector('.filters .btn.active').dataset.era;
+      const items = Array.from(document.querySelectorAll('.event'));
+      items.forEach(it=>{
+        const text = it.textContent.toLowerCase();
+        const era = it.dataset.era;
+        const matchesQ = q === '' || text.includes(q);
+        const matchesEra = (activeEra === 'all') || (era === activeEra);
+        if(matchesQ && matchesEra){
+          it.style.display = '';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    qInput.addEventListener('input', ()=>applyFilter());
+
+    filterBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter();
+      });
+    });
+
+    // keyboard: press '/' to focus search
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === '/'){
+        e.preventDefault(); qInput.focus();
+      }
+    });
+
+    // accessibility: announce count of visible events when filters/search change
+    let lastAnnouncement = '';
+    function announceCount(){
+      const visible = document.querySelectorAll('.event:not([style*="display: none"])').length;
+      const txt = visible + ' events shown.';
+      if(txt !== lastAnnouncement){
+        lastAnnouncement = txt;
+        const live = document.getElementById('live') || (function(){
+          const d = document.createElement('div'); d.id = 'live'; d.setAttribute('aria-live','polite'); d.style.position='absolute'; d.style.left='-9999px'; document.body.appendChild(d); return d; })();
+        live.textContent = txt;
+      }
+    }
+    qInput.addEventListener('input', announceCount);
+    filterBtns.forEach(b=>b.addEventListener('click', announceCount));
+
+  </script>
+</body>
+</html>
